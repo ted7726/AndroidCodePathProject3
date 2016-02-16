@@ -1,7 +1,6 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.twitterapp;
 
 import org.scribe.builder.api.Api;
-import org.scribe.builder.api.FlickrApi;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
