@@ -42,12 +42,12 @@ public class Tweet {
      */
 
     @SerializedName("created_at")
-    public Date created_at;
+    public Date time;
     public long id;
     public String text;
     public String source;
 
-    public UserEntity user;
+    public User user;
 
     @SerializedName("retweeted_status")
     public Tweet retweet;
@@ -58,14 +58,16 @@ public class Tweet {
     public boolean favorited;
     public boolean retweeted;
 
-    public static class UserEntity {
-        public int id;
-        public String id_str;
+    public static class User {
+        @SerializedName("id_str")
+        public String id;
         public String name;
         @SerializedName("screen_name")
         public String screenName;
         public String description;
         public String url;
+        @SerializedName("profile_image_url")
+        public String profileImageUrl;
     }
 
     public EntitiesEntity entities;
@@ -79,10 +81,51 @@ public class Tweet {
          */
 
         public List<UrlsEntity> urls;
+        @SerializedName("user_mentions")
+        public List<User> users;
+        public List<Media> media;
 
         public static class UrlsEntity {
             public String url;
             public String expanded_url;
+        }
+        public static class Media {
+
+            /**
+             * id : 699283096315830300
+             * id_str : 699283096315830273
+             * media_url : http://pbs.twimg.com/media/CbRaRWlXIAEe1sQ.jpg
+             * url : https://t.co/4HtaHPLpaQ
+             * type : photo
+             */
+
+            @SerializedName("id_str")
+            public String id;
+            public String media_url;
+            public String url;
+            public String type;
+            /**
+             * large : {"w":993,"h":1030,"resize":"fit"}
+             * medium : {"w":600,"h":622,"resize":"fit"}
+             * thumb : {"w":150,"h":150,"resize":"crop"}
+             * small : {"w":340,"h":353,"resize":"fit"}
+             */
+
+            public SizesEntity sizes;
+
+            public static class SizesEntity {
+
+                public SizeEntity large;
+                public SizeEntity medium;
+                public SizeEntity thumb;
+                public SizeEntity small;
+
+                public static class SizeEntity {
+                    public int w;
+                    public int h;
+                    public String resize;
+                }
+            }
         }
     }
 }

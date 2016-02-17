@@ -1,13 +1,24 @@
 package com.codepath.apps.twitterapp;
 
+import org.apache.http.Header;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.scribe.builder.api.Api;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.codepath.oauth.OAuthBaseClient;
+import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /*
  * 
@@ -50,6 +61,33 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("since_id", 1);
 		// Execute the request
 		client.get(apiURL, params, handler);
+	}
+
+	public static JsonHttpResponseHandler handlerCreater(ArrayList<Object> objects) {
+		return new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+				super.onSuccess(statusCode, headers, response);
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				super.onSuccess(statusCode, headers, responseString);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+				Log.d("DEBUG", "network call is failed :" + errorResponse.toString());
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+			}
+
+
+		};
 	}
 
 	// COMPOSE TWEET

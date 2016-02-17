@@ -6,4 +6,10 @@
     <string name="title_activity_timline">Home Timeline</string>
 
 
+    <string name="font_sans_serif_regular">sans-serif</string>
+    <string name="font_sans_serif_light">sans-serif-light</string>
+    <string name="font_sans_serif_condensed">sans-serif-condensed</string>
+    <string name="font_sans_serif_thin">sans-serif-thin</string>
+    <string name="font_sans_serif_medium">sans-serif-medium</string>
+    <string name="title_activity_test">testActivity</string>
 </resources>
