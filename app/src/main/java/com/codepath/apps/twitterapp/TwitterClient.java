@@ -52,42 +52,21 @@ public class TwitterClient extends OAuthBaseClient {
 		params.put("format", "json");
 		client.get(apiUrl, params, handler);
 	}
-
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
 		String apiURL = getApiUrl("statuses/home_timeline.json");
-		// specify the params
 		RequestParams params = new RequestParams();
-		params.put("count", 25);
-		params.put("since_id", 1);
-		// Execute the request
+		if (maxId > 1 ) {
+			params.put("max_id", maxId);
+		}
 		client.get(apiURL, params, handler);
 	}
 
-	public static JsonHttpResponseHandler handlerCreater(ArrayList<Object> objects) {
-		return new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+	public void getCurrentUser(JsonHttpResponseHandler handler) {
+		getClient().get(getApiUrl("account/verify_credentials.json"), handler);
+	}
 
-			}
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-				super.onSuccess(statusCode, headers, response);
-			}
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				super.onSuccess(statusCode, headers, responseString);
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-				Log.d("DEBUG", "network call is failed :" + errorResponse.toString());
-				super.onFailure(statusCode, headers, throwable, errorResponse);
-			}
-
-
-		};
+	public void postNewTweet(String tweet, JsonHttpResponseHandler handler) {
+		getClient().post(getApiUrl("statuses/update.json"), new RequestParams("status", tweet), handler);
 	}
 
 	// COMPOSE TWEET
