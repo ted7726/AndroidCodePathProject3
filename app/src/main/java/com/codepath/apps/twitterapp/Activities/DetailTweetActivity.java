@@ -3,6 +3,7 @@ package com.codepath.apps.twitterapp.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +35,6 @@ import butterknife.ButterKnife;
 public class DetailTweetActivity extends AppCompatActivity implements ComposeDialog.ComposeDialogListener {
     @Bind(R.id.tweetContentView) View tweetContentView;
     @Bind(R.id.tweetActionView) View tweetActionView;
-    @Bind(R.id.ivBackgroundImageView) ImageView ivBackgroundImageView;
     private Tweet tweet;
     private TweetViewHolder viewHolder;
     private TweetActionViewHolder viewActionHolder;
@@ -47,36 +47,26 @@ public class DetailTweetActivity extends AppCompatActivity implements ComposeDia
         viewHolder = new TweetViewHolder(tweetContentView, this);
         viewActionHolder = new TweetActionViewHolder(tweetActionView, this);
 
-        Intent intent = getIntent();
-        Tweet tweet = (Tweet) Parcels.unwrap(intent.getParcelableExtra("tweet"));
+        final Intent intent = getIntent();
+        final Tweet tweet = (Tweet) Parcels.unwrap(intent.getParcelableExtra("tweet"));
         setTweet(tweet);
         TextView tvTweetTexts = (TextView)findViewById(R.id.tvTweetTexts);
         tvTweetTexts.setTextSize(24);
 
+        final AppCompatActivity appCompatActivity = this;
+        final ImageView ivMediaView = (ImageView)findViewById(R.id.ivMedia);
+        ivMediaView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(getApplicationContext(), GalleryActivity.class);
+                galleryIntent.putExtra("tweet", Parcels.wrap(tweet));
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(appCompatActivity, (View)ivMediaView, "GalleryPhoto");
+                startActivity(galleryIntent, options.toBundle());
+            }
+        });
+
         TwitterClient client = TwitterApplication.getRestClient(); // singleton client
         client.getTweet(Long.toString(tweet.id), parseTweetHandler());
-//        ivBackgroundImageView.setImageResource(R.drawable.twitter_logo);
-
-//
-//        if (tweet.entities!=null && tweet.entities.media!= null && tweet.entities.media.size()>0) {
-//            Tweet.EntitiesEntity.Media media = tweet.entities.media.get(0);
-//            final Context context = ivBackgroundImageView.getContext();
-////            Glide.with(context).load(media.media_url).fitCenter().placeholder(R.drawable.ic_pics).into(ivBackgroundImageView);
-//            Picasso.with(context).load(media.media_url).transform(new Transformation() {
-//
-//                @Override
-//                public Bitmap transform(Bitmap source) {
-//                    Bitmap b = Blur.fastblur(context, source, 20);
-//                    source.recycle();
-//                    return b;
-//                }
-//                @Override
-//                public String key() {
-//                    return "blur";
-//                }
-//            }).placeholder(R.drawable.ic_pics).into(ivBackgroundImageView);
-//
-//        }
     }
 
     public void setTweet(Tweet tweet) {

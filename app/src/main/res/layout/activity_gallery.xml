@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#111111"
+    tools:context="com.codepath.apps.twitterapp.Activities.GalleryActivity">
+
+    <ImageView
+        android:id="@+id/ivGalleryPhotoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:transitionName="GalleryPhoto"
+        android:src="@drawable/twitter_logo"
+        android:adjustViewBounds="true"/>
+    <ImageView
+        android:id="@+id/ivGalleryBlurredPhotoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/twitter_logo"
+        android:adjustViewBounds="true"/>
+
+    <RelativeLayout
+        android:id="@+id/rlGalleryCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:padding="10dp"
+        android:background="@drawable/gallery_caption_gradient"
+        >
+        <com.makeramen.roundedimageview.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:riv_corner_radius="24dp"
+            android:id="@+id/ivGalleryUserProfile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+
+            />
+        <TextView
+            android:id="@+id/tvGalleryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/ivGalleryUserProfile"
+            android:padding="2dp"
+            android:text="username"
+            android:textSize="16sp"
+            android:textColor="#EEE0E0E0"
+            android:fontFamily="@string/font_sans_serif_medium"
+            />
+        <TextView
+            android:id="@+id/tvGalleryUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/ivGalleryUserProfile"
+            android:layout_below="@id/tvGalleryName"
+            android:padding="2dp"
+            android:text="\@username"
+            android:textSize="12sp"
+            android:textColor="#8899BB"
+            android:gravity="center_vertical"
+            android:fontFamily="@string/font_sans_serif_regular"/>
+        <TextView
+            android:id="@+id/tvGalleryTweetTexts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivGalleryUserProfile"
+            android:padding="4dp"
+            android:text="Love the story, Love the film."
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@string/font_sans_serif_regular"
+            android:autoLink="all"
+            android:linksClickable="true"
+            />
+        <TextView
+            android:id="@+id/tvGalleryTweetTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/tvGalleryName"
+            android:layout_alignBottom="@id/tvGalleryName"
+            android:padding="2dp"
+            android:text="2h"
+            android:textSize="12sp"
+            android:textColor="#8899BB"
+            android:gravity="center_vertical"
+            android:fontFamily="@string/font_sans_serif_regular"
+            />
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

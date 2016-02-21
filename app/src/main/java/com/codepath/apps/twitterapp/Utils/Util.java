@@ -10,6 +10,8 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 
 import com.bumptech.glide.load.engine.Resource;
 import com.codepath.apps.twitterapp.PersistModel.PersistentTweet;
@@ -72,6 +74,34 @@ public class Util {
             return null;
         }
         return gson.fromJson(persistentTweet.tweetContent, Tweet.class);
+    }
+    public static void alphaAnimationCreator(final View view, final boolean isfadeIn) {
+        alphaAnimationCreator(view, isfadeIn, 500);
+    }
+
+    public static void alphaAnimationCreator(final View view, final boolean isfadeIn, int duration) {
+        final float alpha = isfadeIn?0.0f:1.0f;
+
+        view.setVisibility(View.VISIBLE);
+        AlphaAnimation fade = new AlphaAnimation(alpha, 1-alpha);
+        fade.setAnimationListener(
+                new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        view.setVisibility(isfadeIn?View.VISIBLE:View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                }
+        );
+        fade.setDuration(duration);
+        view.startAnimation(fade);
     }
 
 }

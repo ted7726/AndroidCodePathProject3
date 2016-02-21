@@ -14,11 +14,6 @@
         card_view:cardCornerRadius="8dp"
         android:id="@+id/view">
         <include layout="@layout/tweet_layout"/>
-
-
     </android.support.v7.widget.CardView>
-
-
-
 
 </LinearLayout>

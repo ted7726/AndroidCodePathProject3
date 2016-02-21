@@ -235,23 +235,24 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         if ((tvNetworkUnavailable.getVisibility() == View.VISIBLE) == show) {
             return;
         }
-        final float alpha = show?0.0f:1.0f;
-        AlphaAnimation fade = new AlphaAnimation(alpha, 1-alpha);
-        fade.setAnimationListener(
-                new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                    }
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        tvNetworkUnavailable.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-                    }
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                    }
-                }
-        );
-        fade.setDuration(800);
-        tvNetworkUnavailable.startAnimation(fade);
+        Util.alphaAnimationCreator(tvNetworkUnavailable, show, 800);
+//        final float alpha = show?0.0f:1.0f;
+//        AlphaAnimation fade = new AlphaAnimation(alpha, 1-alpha);
+//        fade.setAnimationListener(
+//                new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//                    }
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//                        tvNetworkUnavailable.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+//                    }
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//                    }
+//                }
+//        );
+//        fade.setDuration(800);
+//        tvNetworkUnavailable.startAnimation(fade);
     }
 }
