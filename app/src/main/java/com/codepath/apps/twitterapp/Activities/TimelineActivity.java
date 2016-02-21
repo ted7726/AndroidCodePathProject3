@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.codepath.apps.twitterapp.Adapters.TweetsArrayAdapter;
 import com.codepath.apps.twitterapp.DialogFragment.ComposeDialog;
@@ -39,7 +44,6 @@ import org.parceler.Parcels;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,9 +53,11 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     private TweetsArrayAdapter tweetsArrayAdapter;
     private TwitterClient client;
     private long maxId;
+    private int detailTweetPosition;
     private static final String TAG = "Wilson-DEBUG";
     @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
+    @Bind(R.id.tvNetworkUnavailable) TextView tvNetworkUnavailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +73,12 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         tweets = new ArrayList<>();
         tweetsArrayAdapter = new TweetsArrayAdapter(this, tweets);
         maxId = 1;
+        detailTweetPosition = -1;
     }
     private void setup() {
 
         ButterKnife.bind(this);
+        tvNetworkUnavailable.setVisibility(View.INVISIBLE);
         // setup Recycler View
         RecyclerView rvTimeline = (RecyclerView) findViewById(R.id.rvTimeline);
         rvTimeline.setAdapter(tweetsArrayAdapter);
@@ -84,12 +92,17 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
                 populateTimeline(page);
             }
         });
+
+        final AppCompatActivity appCompatActivity = this;
         rvTimeline.addOnItemTouchListener(new RecyclerViewItemClickListener(this, new RecyclerViewItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                detailTweetPosition = position;
                 Intent intent = new Intent(getApplicationContext(), DetailTweetActivity.class);
                 intent.putExtra("tweet", Parcels.wrap(tweets.get(position)));
-                startActivity(intent);
+                View tweetContentView = view.findViewById(R.id.tweetContentView);
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(appCompatActivity, tweetContentView, "TweetContent");
+                startActivity(intent, options.toBundle());
             }
         }));
 
@@ -114,12 +127,15 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     }
 
     private void populateTimeline(int page) {
+        boolean hasNetwork = (isNetworkAvailable() && isOnline());
+        toggleNetworkUnavailable(!hasNetwork);
         if (page>0) {
             prLoadingSpinner.setVisibility(View.VISIBLE);
             client.getHomeTimeline(maxId, timelineHandler(false));
         } else {
-            if (!isNetworkAvailable()) {
+            if (!hasNetwork) {
                 addTweets(PersistentTweet.getAll());
+                swipeContainer.setRefreshing(false);
                 return;
             }
             client.getHomeTimeline(maxId, timelineHandler(true));
@@ -152,6 +168,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                swipeContainer.setRefreshing(false);
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
@@ -170,11 +187,11 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
 
     public void onFinishComposeDialog(String composeText) {
         prLoadingSpinner.setVisibility(View.VISIBLE);
-        client.postNewTweet(composeText, new JsonHttpResponseHandler(){
+        client.postNewTweet(composeText, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Tweet tweet = Tweet.fromJson(response);
-                tweets.add(0,tweet);
+                tweets.add(0, tweet);
                 tweetsArrayAdapter.notifyDataSetChanged();
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
                 super.onSuccess(statusCode, headers, response);
@@ -203,5 +220,38 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         } catch (IOException e)          { e.printStackTrace(); }
         catch (InterruptedException e) { e.printStackTrace(); }
         return false;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (detailTweetPosition > 0) {
+            Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("tweet"));
+            tweets.set(detailTweetPosition, tweet);
+            tweetsArrayAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void toggleNetworkUnavailable(final boolean show) {
+        if ((tvNetworkUnavailable.getVisibility() == View.VISIBLE) == show) {
+            return;
+        }
+        final float alpha = show?0.0f:1.0f;
+        AlphaAnimation fade = new AlphaAnimation(alpha, 1-alpha);
+        fade.setAnimationListener(
+                new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        tvNetworkUnavailable.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                }
+        );
+        fade.setDuration(800);
+        tvNetworkUnavailable.startAnimation(fade);
     }
 }

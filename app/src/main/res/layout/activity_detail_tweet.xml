@@ -1,11 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
     tools:context="com.codepath.apps.twitterapp.Activities.DetailTweetActivity">
-    <include layout="@layout/tweet_layout" />
-    <include layout="@layout/tweet_action_layout"/>
-</LinearLayout>
+    <ImageView
+        android:id="@+id/ivBackgroundImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/twitter_logo"
+        android:adjustViewBounds="true"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_gravity="center_horizontal"
+        android:background="#AAFFFFFF"
+        android:nestedScrollingEnabled="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="30dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@color/transparent">
+        <include layout="@layout/tweet_layout" />
+        <include layout="@layout/tweet_action_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
+    <ImageButton
+        android:id="@+id/btDetailDismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:padding="3dp"
+        android:background="@color/transparent"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="onDismiss" />
+
+</RelativeLayout>

@@ -51,7 +51,7 @@
         android:layout_below="@id/etComposeTweet"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:background="@color/trasparent"
+        android:background="@color/transparent"
         android:src="@android:drawable/ic_menu_close_clear_cancel"/>
 
 

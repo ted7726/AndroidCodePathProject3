@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/transparent"
     android:id="@+id/tweetActionView">
     <ImageButton
         android:id="@+id/ibReplyButton"
@@ -10,8 +12,8 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:background="@color/trasparent"
-        android:paddingLeft="10dp"
+        android:background="@color/transparent"
+        android:paddingLeft="5dp"
         android:src="@drawable/ic_reply"/>
 
     <ImageButton
@@ -19,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/ibReplyButton"
-        android:paddingLeft="10dp"
-        android:background="@color/trasparent"
+        android:paddingLeft="25dp"
+        android:background="@color/transparent"
         android:src="@drawable/ic_retweet"/>
     <TextView
         android:id="@+id/tvRetweetCount"
@@ -40,8 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/tvRetweetCount"
-        android:paddingLeft="10dp"
-        android:background="@color/trasparent"
+        android:paddingLeft="25dp"
+        android:background="@color/transparent"
         android:src="@drawable/ic_like"/>
 
     <TextView

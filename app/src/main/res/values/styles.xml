@@ -10,6 +10,7 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowContentTransitions">true</item>
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

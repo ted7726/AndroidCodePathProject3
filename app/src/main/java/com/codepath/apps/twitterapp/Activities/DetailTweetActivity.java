@@ -1,18 +1,28 @@
 package com.codepath.apps.twitterapp.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
+import com.bumptech.glide.load.engine.Resource;
 import com.codepath.apps.twitterapp.DialogFragment.ComposeDialog;
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.TwitterApplication;
 import com.codepath.apps.twitterapp.TwitterClient;
+import com.codepath.apps.twitterapp.Utils.Blur;
 import com.codepath.apps.twitterapp.Views.TweetActionViewHolder;
 import com.codepath.apps.twitterapp.Views.TweetViewHolder;
 import com.codepath.apps.twitterapp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import org.apache.http.Header;
 import org.json.JSONObject;
@@ -24,6 +34,7 @@ import butterknife.ButterKnife;
 public class DetailTweetActivity extends AppCompatActivity implements ComposeDialog.ComposeDialogListener {
     @Bind(R.id.tweetContentView) View tweetContentView;
     @Bind(R.id.tweetActionView) View tweetActionView;
+    @Bind(R.id.ivBackgroundImageView) ImageView ivBackgroundImageView;
     private Tweet tweet;
     private TweetViewHolder viewHolder;
     private TweetActionViewHolder viewActionHolder;
@@ -39,6 +50,33 @@ public class DetailTweetActivity extends AppCompatActivity implements ComposeDia
         Intent intent = getIntent();
         Tweet tweet = (Tweet) Parcels.unwrap(intent.getParcelableExtra("tweet"));
         setTweet(tweet);
+        TextView tvTweetTexts = (TextView)findViewById(R.id.tvTweetTexts);
+        tvTweetTexts.setTextSize(24);
+
+        TwitterClient client = TwitterApplication.getRestClient(); // singleton client
+        client.getTweet(Long.toString(tweet.id), parseTweetHandler());
+//        ivBackgroundImageView.setImageResource(R.drawable.twitter_logo);
+
+//
+//        if (tweet.entities!=null && tweet.entities.media!= null && tweet.entities.media.size()>0) {
+//            Tweet.EntitiesEntity.Media media = tweet.entities.media.get(0);
+//            final Context context = ivBackgroundImageView.getContext();
+////            Glide.with(context).load(media.media_url).fitCenter().placeholder(R.drawable.ic_pics).into(ivBackgroundImageView);
+//            Picasso.with(context).load(media.media_url).transform(new Transformation() {
+//
+//                @Override
+//                public Bitmap transform(Bitmap source) {
+//                    Bitmap b = Blur.fastblur(context, source, 20);
+//                    source.recycle();
+//                    return b;
+//                }
+//                @Override
+//                public String key() {
+//                    return "blur";
+//                }
+//            }).placeholder(R.drawable.ic_pics).into(ivBackgroundImageView);
+//
+//        }
     }
 
     public void setTweet(Tweet tweet) {
@@ -52,7 +90,11 @@ public class DetailTweetActivity extends AppCompatActivity implements ComposeDia
         TwitterClient client = TwitterApplication.getRestClient(); // singleton client
         composeText = "@"+tweet.user.screenName + " " + composeText;
 
-        client.replyTweet(composeText, Long.toString(tweet.id), new JsonHttpResponseHandler(){
+        client.replyTweet(composeText, Long.toString(tweet.id),parseTweetHandler());
+    }
+
+    private JsonHttpResponseHandler parseTweetHandler() {
+        return new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 tweet = Tweet.fromJson(response);
@@ -64,6 +106,12 @@ public class DetailTweetActivity extends AppCompatActivity implements ComposeDia
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 super.onFailure(statusCode, headers, throwable, errorResponse);
             }
-        });
+        };
+    }
+
+    public void onDismiss(View v) {
+        Intent intent = new Intent();
+        intent.putExtra("tweet", Parcels.wrap(tweet));
+        supportFinishAfterTransition();
     }
 }

@@ -35,6 +35,17 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
     </android.support.v4.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/tvNetworkUnavailable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CCAA1111"
+        android:text="Network is Unavailable"
+        android:gravity="center_horizontal"
+        android:padding="3dp"
+        android:textColor="#ffffff"
+        />
+
 
     <RelativeLayout
         android:id="@+id/prLoadingSpinner"

@@ -2,10 +2,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/tweetContentView">
+    android:id="@+id/tweetContentView"
+    android:background="@color/transparent"
+    android:transitionName="TweetContent">
     <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/transparent"
     android:layout_margin="5dp">
         <ImageView
             android:id="@+id/ivStatus"
@@ -15,7 +18,7 @@
             android:layout_alignBottom="@+id/tvStatus"
             android:layout_toLeftOf="@+id/tvStatus"
             android:src="@drawable/ic_retweeted"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             />
 
         <TextView
@@ -132,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_play_button"
-                android:background="@color/trasparent"
+                android:background="@color/transparent"
                 android:layout_centerInParent="true"
                 />
 

@@ -1,10 +1,17 @@
 package com.codepath.apps.twitterapp.Utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.load.engine.Resource;
 import com.codepath.apps.twitterapp.PersistModel.PersistentTweet;
 import com.codepath.apps.twitterapp.models.Tweet;
 import com.google.gson.Gson;
@@ -66,6 +73,5 @@ public class Util {
         }
         return gson.fromJson(persistentTweet.tweetContent, Tweet.class);
     }
-
 
 }
