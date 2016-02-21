@@ -54,13 +54,17 @@ public class Util {
     }
     public static void persistData(JSONObject response) throws JSONException {
         PersistentTweet tweet = PersistentTweet.fromJson(response);
-        tweet.save();
+        if (tweet!=null) {
+            tweet.save();
+        }
     }
 
     public static Tweet tweetConverter (PersistentTweet persistentTweet) {
-        Gson gson = new Gson();
-        String json = gson.toJson(persistentTweet, PersistentTweet.class);
-        return gson.fromJson(json, Tweet.class);
+        Gson gson = gsonCreatorFortweeterDateFormater();
+        if (persistentTweet==null) {
+            return null;
+        }
+        return gson.fromJson(persistentTweet.tweetContent, Tweet.class);
     }
 
 

@@ -114,15 +114,14 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     }
 
     private void populateTimeline(int page) {
-
-        if (!isNetworkAvailable()) {
-            addTweets(PersistentTweet.getAll());
-            return;
-        }
         if (page>0) {
             prLoadingSpinner.setVisibility(View.VISIBLE);
             client.getHomeTimeline(maxId, timelineHandler(false));
         } else {
+            if (!isNetworkAvailable()) {
+                addTweets(PersistentTweet.getAll());
+                return;
+            }
             client.getHomeTimeline(maxId, timelineHandler(true));
             maxId = 1;
         }
