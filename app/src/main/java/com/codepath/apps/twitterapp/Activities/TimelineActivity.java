@@ -1,5 +1,9 @@
 package com.codepath.apps.twitterapp.Activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,28 +13,33 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.codepath.apps.twitterapp.Adapters.TweetsArrayAdapter;
 import com.codepath.apps.twitterapp.DialogFragment.ComposeDialog;
+import com.codepath.apps.twitterapp.PersistModel.PersistentTweet;
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.TwitterApplication;
 import com.codepath.apps.twitterapp.TwitterClient;
 import com.codepath.apps.twitterapp.Utils.EndlessRecyclerViewScrollListener;
+import com.codepath.apps.twitterapp.Utils.RecyclerViewItemClickListener;
+import com.codepath.apps.twitterapp.Utils.Util;
 import com.codepath.apps.twitterapp.models.CurrentUser;
 import com.codepath.apps.twitterapp.models.Tweet;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,7 +65,7 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     private void init() {
         client = TwitterApplication.getRestClient(); // singleton client
         tweets = new ArrayList<>();
-        tweetsArrayAdapter = new TweetsArrayAdapter(tweets);
+        tweetsArrayAdapter = new TweetsArrayAdapter(this, tweets);
         maxId = 1;
     }
     private void setup() {
@@ -72,10 +81,17 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             public void onLoadMore(int page, int totalItemsCount) {
                 // Triggered only when new data needs to be appended to the list
                 // Add whatever code is needed to append new items to the bottom of the list
-                Log.d(TAG, "on load more" + page);
                 populateTimeline(page);
             }
         });
+        rvTimeline.addOnItemTouchListener(new RecyclerViewItemClickListener(this, new RecyclerViewItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getApplicationContext(), DetailTweetActivity.class);
+                intent.putExtra("tweet", Parcels.wrap(tweets.get(position)));
+                startActivity(intent);
+            }
+        }));
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -98,6 +114,11 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
     }
 
     private void populateTimeline(int page) {
+
+        if (!isNetworkAvailable()) {
+            addTweets(PersistentTweet.getAll());
+            return;
+        }
         if (page>0) {
             prLoadingSpinner.setVisibility(View.VISIBLE);
             client.getHomeTimeline(maxId, timelineHandler(false));
@@ -111,22 +132,22 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         return new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                Log.d(TAG, "onSuccess");
                 // Mon Feb 15 17:31:31 +0000 2016
-                Gson gson = gsonCreatorFortweeterDateFormater();
+                Gson gson = Util.gsonCreatorFortweeterDateFormater();
                 Type listType = new TypeToken<ArrayList<Tweet>>() {}.getType();
                 ArrayList<Tweet> newTweets = gson.fromJson(response.toString(), listType);
+
+                try {
+                    Util.persistData(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 if (isRefresh) {
                     tweets.clear();
                 }
-                tweets.addAll(newTweets);
-                tweetsArrayAdapter.notifyDataSetChanged();
-                if (newTweets.size()>0) {
-                    maxId = newTweets.get(newTweets.size()-1).id;
-                    Log.d(TAG, "get max id:" + maxId);
-                }
-                swipeContainer.setRefreshing(false);
-                prLoadingSpinner.setVisibility(View.INVISIBLE);
+
+                addTweets(newTweets);
                 super.onSuccess(statusCode, headers, response);
             }
 
@@ -138,13 +159,22 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         };
     }
 
+    private void addTweets(ArrayList<Tweet> newTweets) {
+        tweets.addAll(newTweets);
+        tweetsArrayAdapter.notifyDataSetChanged();
+        if (newTweets.size()>0) {
+            maxId = newTweets.get(newTweets.size()-1).id;
+        }
+        swipeContainer.setRefreshing(false);
+        prLoadingSpinner.setVisibility(View.INVISIBLE);
+    }
+
     public void onFinishComposeDialog(String composeText) {
         prLoadingSpinner.setVisibility(View.VISIBLE);
         client.postNewTweet(composeText, new JsonHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Gson gson = gsonCreatorFortweeterDateFormater();
-                Tweet tweet = gson.fromJson(response.toString(), Tweet.class);
+                Tweet tweet = Tweet.fromJson(response);
                 tweets.add(0,tweet);
                 tweetsArrayAdapter.notifyDataSetChanged();
                 prLoadingSpinner.setVisibility(View.INVISIBLE);
@@ -159,8 +189,20 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         });
     }
 
-    private Gson gsonCreatorFortweeterDateFormater() {
-        // Mon Feb 15 17:31:31 +0000 2016
-        return new GsonBuilder().setDateFormat("EEE MMM dd HH:mm:ss zzzzz yyyy").create();
+    private Boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
+    }
+
+    public boolean isOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        } catch (IOException e)          { e.printStackTrace(); }
+        catch (InterruptedException e) { e.printStackTrace(); }
+        return false;
     }
 }

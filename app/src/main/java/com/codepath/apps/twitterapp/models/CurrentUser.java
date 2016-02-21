@@ -11,7 +11,7 @@ import org.json.JSONObject;
  * Created by weishengsu on 2/19/16.
  */
 public class CurrentUser {
-    public static Tweet.User user;
+    public static User user;
     private TwitterClient client;
 
     public CurrentUser(TwitterClient client) {
@@ -19,7 +19,7 @@ public class CurrentUser {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 Gson gson = new Gson();
-                user = gson.fromJson(response.toString(), Tweet.User.class);
+                user = gson.fromJson(response.toString(), User.class);
                 super.onSuccess(statusCode, headers, response);
             }
 

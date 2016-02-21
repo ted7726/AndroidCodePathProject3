@@ -1,6 +1,5 @@
 package com.codepath.apps.twitterapp.DialogFragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.models.CurrentUser;
 import com.codepath.apps.twitterapp.models.Tweet;
+import com.codepath.apps.twitterapp.models.User;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,8 +36,8 @@ public class ComposeDialog extends DialogFragment {
     @Bind(R.id.tvComposeName) TextView tvComposeName;
     @Bind(R.id.tvComposeUsername) TextView tvComposeUsername;
     @Bind(R.id.btDialogCompose) FloatingActionButton btDialogCompose;
-    @Bind(R.id.btDialogDismiss) FloatingActionButton btDialogDismiss;
-    private Tweet.User user;
+    @Bind(R.id.btDialogDismiss) ImageButton btDialogDismiss;
+    private User user;
 
     public static ComposeDialog newInstance() {
         ComposeDialog frag = new ComposeDialog();
@@ -44,7 +45,7 @@ public class ComposeDialog extends DialogFragment {
     }
 
     public interface ComposeDialogListener {
-        void onFinishComposeDialog(String composetText);
+        void onFinishComposeDialog(String composeText);
     }
 
 
@@ -60,7 +61,9 @@ public class ComposeDialog extends DialogFragment {
         // Show soft keyboard automatically and request focus to field
         etComposeTweet.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int len = 140 - s.length();
@@ -73,8 +76,10 @@ public class ComposeDialog extends DialogFragment {
                     tvWordCounts.setTextColor(0xffcc0000);
                 }
             }
+
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
         btDialogDismiss.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
@@ -82,7 +87,8 @@ public class ComposeDialog extends DialogFragment {
             }
         });
         btDialogCompose.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
+            @Override
+            public void onClick(View v) {
                 ComposeDialogListener listener = (ComposeDialogListener) getActivity();
                 listener.onFinishComposeDialog(etComposeTweet.getText().toString());
 
@@ -95,7 +101,7 @@ public class ComposeDialog extends DialogFragment {
             user = CurrentUser.user;
             tvComposeName.setText(user.name);
             tvComposeUsername.setText("@"+user.screenName);
-            Glide.with(this).load(user.profileImageUrl).override(48, 48).fitCenter().placeholder(R.drawable.ic_profile).into(ivComposeUserProfile);
+            Glide.with(this).load(user.profileImageUrl).fitCenter().placeholder(R.drawable.ic_profile).into(ivComposeUserProfile);
         }
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);

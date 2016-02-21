@@ -43,15 +43,6 @@ public class TwitterClient extends OAuthBaseClient {
 		super(context, REST_API_CLASS, REST_URL, REST_CONSUMER_KEY, REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 
-	// CHANGE THIS
-	// DEFINE METHODS for different API endpoints here
-	public void getInterestingnessList(AsyncHttpResponseHandler handler) {
-		String apiUrl = getApiUrl("?nojsoncallback=1&method=flickr.interestingness.getList");
-		// Can specify query string params directly or through RequestParams.
-		RequestParams params = new RequestParams();
-		params.put("format", "json");
-		client.get(apiUrl, params, handler);
-	}
 	public void getHomeTimeline(long maxId, AsyncHttpResponseHandler handler) {
 		String apiURL = getApiUrl("statuses/home_timeline.json");
 		RequestParams params = new RequestParams();
@@ -65,9 +56,36 @@ public class TwitterClient extends OAuthBaseClient {
 		getClient().get(getApiUrl("account/verify_credentials.json"), handler);
 	}
 
-	public void postNewTweet(String tweet, JsonHttpResponseHandler handler) {
-		getClient().post(getApiUrl("statuses/update.json"), new RequestParams("status", tweet), handler);
+	public void postNewTweet(String text, JsonHttpResponseHandler handler) {
+		if (text == null) return;
+		getClient().post(getApiUrl("statuses/update.json"), new RequestParams("status", text), handler);
 	}
+
+	public void replyTweet(String text, String tweetId, JsonHttpResponseHandler handler) {
+		if (text == null || tweetId == null) return;
+		RequestParams requestParams = new RequestParams("status", text);
+		requestParams.put("in_reply_to_status_id", tweetId);
+		getClient().post(getApiUrl("statuses/update.json"), requestParams, handler);
+	}
+
+	public void getTweet(String tweetId, JsonHttpResponseHandler handler) {
+		if (tweetId == null) return;
+		getClient().post(getApiUrl("statuses/show.json"), new RequestParams("id", tweetId), handler);
+	}
+
+	public void likeTweet(String tweetId, boolean isLike, JsonHttpResponseHandler handler) {
+		if (tweetId == null) return;
+		String uri = isLike ? "favorites/create.json" : "favorites/destroy.json";
+		getClient().post(getApiUrl(uri), new RequestParams("id", tweetId), handler);
+	}
+
+	public void retweet(String tweetId, boolean isRetweet, JsonHttpResponseHandler handler) {
+		if (tweetId == null) return;
+		String uri = (isRetweet ? "statuses/retweet/" : "statuses/unretweet/") + tweetId +".json";
+		getClient().post(getApiUrl(uri), new RequestParams("id", tweetId), handler);
+	}
+
+
 
 	// COMPOSE TWEET
 
