@@ -50,6 +50,7 @@ The following **additional** features are implemented:
 * [x] Animation(enlarg text/blur/moving) and blur images in gallery
 * [x] Activity Transitions betweet timeline/detail to animate tweet texts and photo
 * [x] gradient Background for caption in gallery and timeline
+* [x] progress bar for loading infinite tweets
 
 
 ## Video Walkthrough 
