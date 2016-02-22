@@ -32,6 +32,7 @@ import butterknife.ButterKnife;
 public class GalleryActivity extends AppCompatActivity {
     @Bind(R.id.tvGalleryName) TextView tvName;
     @Bind(R.id.tvGalleryTweetTexts) TextView tvTweetTexts;
+    @Bind(R.id.tvGalleryBiggerTweetTexts) TextView tvTweetBiggerTexts;
     @Bind(R.id.tvGalleryTweetTime) TextView tvTweetTime;
     @Bind(R.id.tvGalleryUsername) TextView tvUsername;
     @Bind(R.id.ivGalleryUserProfile) ImageView  ivUserProfile;
@@ -51,9 +52,11 @@ public class GalleryActivity extends AppCompatActivity {
         tvName.setText(Util.checkStringEmpty(tweet.user.name));
         tvUsername.setText(Util.checkStringEmpty("@" + tweet.user.screenName));
         tvTweetTexts.setText(Util.checkStringEmpty(tweet.text));
+        tvTweetBiggerTexts.setText(Util.checkStringEmpty(tweet.text));
         tvTweetTime.setText(Util.converTimetoRelativeTime(tweet.time));
-        captionIsShown = false;
 
+        captionIsShown = false;
+        tvTweetBiggerTexts.setVisibility(View.INVISIBLE);
         if (tweet.user!=null && !TextUtils.isEmpty(tweet.user.profileImageUrl)) {
             ivUserProfile.setImageResource(0);
             Context context = ivUserProfile.getContext();
@@ -66,8 +69,6 @@ public class GalleryActivity extends AppCompatActivity {
             pvGalleryPagerView.setAdapter(galleryAdapter);
         }
 
-
-
         rlGalleryCaption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +76,8 @@ public class GalleryActivity extends AppCompatActivity {
                 galleryPhotoFragment.blurPhoto(!captionIsShown);
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), (captionIsShown?R.anim.move_down:R.anim.move_up));
                 rlGalleryCaption.startAnimation(animation);
+                Util.alphaAnimationCreator(tvTweetBiggerTexts, !captionIsShown);
+                Util.alphaAnimationCreator(tvTweetTexts, captionIsShown);
                 captionIsShown = !captionIsShown;
             }
         });

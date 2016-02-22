@@ -47,7 +47,7 @@ The following **additional** features are implemented:
 * [x] Implement textView to let the user know there is no network
 * [x] User is able to like and retweet
 * [x] implements Gallery if more than 1 photo
-* [x] Animation and blur images in gallery
+* [x] Animation(enlarg text/blur/moving) and blur images in gallery
 * [x] Activity Transitions betweet timeline/detail to animate tweet texts and photo
 * [x] gradient Background for caption in gallery and timeline
 
@@ -56,9 +56,19 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
+# Gallery/blur/animation:
+<img src='rec1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+# Network/Persistence/retweet
 <img src='rec8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+# Compose/reply/Activity Transitions
 <img src='rec9.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+# like
 <img src='rec10.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+# Video
 <img src='rec11.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
