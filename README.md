@@ -56,19 +56,19 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-# Gallery/blur/animation:
+### Gallery/blur/animation/link:
 <img src='rec1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-# Network/Persistence/retweet
-<img src='rec8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-# Compose/reply/Activity Transitions
+### Compose/reply/Activity Transitions
 <img src='rec9.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-# like
+### Network/Persistence/retweet
+<img src='rec8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+### like
 <img src='rec10.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
-# Video
+### Video
 <img src='rec11.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
