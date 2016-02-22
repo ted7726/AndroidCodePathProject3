@@ -47,6 +47,7 @@ public class VideoFragmentDialog extends DialogFragment {
         if (url.length()>0) {
             videoView.setVideoPath(url);
             videoView.start();
+            getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
             getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         }
     }
@@ -58,7 +59,7 @@ public class VideoFragmentDialog extends DialogFragment {
         // Assign window properties to fill the parent
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
 //        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
         getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
         // Call super onResume after sizing
         super.onResume();

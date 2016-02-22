@@ -1,6 +1,8 @@
 package com.codepath.apps.twitterapp.Views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +14,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.twitterapp.Activities.GalleryActivity;
 import com.codepath.apps.twitterapp.DialogFragment.VideoFragmentDialog;
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.Utils.Util;
 import com.codepath.apps.twitterapp.models.Tweet;
+
+import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +29,7 @@ import butterknife.ButterKnife;
  * Created by wilsonsu on 2/20/16.
  */
 public class TweetViewHolder extends RecyclerView.ViewHolder {
-    private FragmentActivity timelineActivity;
+    private FragmentActivity fragmentActivity;
     @Bind(R.id.ivStatus)
     ImageView ivStatus;
     @Bind(R.id.ivMedia) ImageView ivMedia;
@@ -41,12 +46,12 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.rlMediaView)
     RelativeLayout rlMediaView;
 
-    public TweetViewHolder(View itemView, FragmentActivity timelineActivity) {
+    public TweetViewHolder(View itemView, FragmentActivity fragmentActivity) {
         // Stores the itemView in a public final member variable that can be used
-        // to access the timelineActivity from any TweetViewHolder instance.
+        // to access the fragmentActivity from any TweetViewHolder instance.
         super(itemView);
         ButterKnife.bind(this, itemView);
-        this.timelineActivity = timelineActivity;
+        this.fragmentActivity = fragmentActivity;
 
     }
 
@@ -93,7 +98,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         ibPlayButton.setVisibility(View.INVISIBLE);
         ivMedia.setImageResource(0);
         if (tweet.entities!=null && tweet.entities.media!= null && tweet.entities.media.size()>0) {
-            final Tweet.EntitiesEntity.Media media = tweet.entities.media.get(0);
+            final Tweet.EntitiesEntity.Media media = tweet.extendedEntities.medias.get(0);
             if (media.video!=null && media.video.variants.size()>0 && media.video.variants.get(0).url!=null) {
                 ibPlayButton.setVisibility(View.VISIBLE);
                 final String url = media.video.variants.get(0).url;
@@ -101,7 +106,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                 ibPlayButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FragmentManager fm = timelineActivity.getSupportFragmentManager();
+                        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
                         VideoFragmentDialog videoFD = VideoFragmentDialog.newInstance(url);
                         videoFD.show(fm, "fragment_video");
                     }
@@ -111,6 +116,17 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
             if (!TextUtils.isEmpty(media.media_url)) {
                 Context context = ivMedia.getContext();
                 Glide.with(context).load(media.media_url).override(media.sizes.medium.w, media.sizes.medium.h).fitCenter().placeholder(R.drawable.ic_pics).into(ivMedia);
+
+                final Tweet finalTweet = tweet;
+                ivMedia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent galleryIntent = new Intent(fragmentActivity.getApplicationContext(), GalleryActivity.class);
+                        galleryIntent.putExtra("tweet", Parcels.wrap(finalTweet));
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, ivMedia, "GalleryPhoto");
+                        fragmentActivity.startActivity(galleryIntent, options.toBundle());
+                    }
+                });
             }
             Util.setLayoutHeight(true, rlMediaView);
         } else {

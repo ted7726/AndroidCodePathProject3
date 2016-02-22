@@ -47,6 +47,17 @@ public class Tweet{
     }
 
     public EntitiesEntity entities;
+    @SerializedName("extended_entities")
+    public ExtendedEntities extendedEntities;
+
+    @org.parceler.Parcel
+    public static class ExtendedEntities {
+        @SerializedName("media")
+        public List<EntitiesEntity.Media> medias;
+
+        public ExtendedEntities() {
+        }
+    }
 
     @org.parceler.Parcel
     public static class EntitiesEntity {
@@ -117,4 +128,6 @@ public class Tweet{
         public EntitiesEntity() {
         }
     }
+
+
 }

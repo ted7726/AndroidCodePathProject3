@@ -5,22 +5,13 @@
     android:layout_height="match_parent"
     android:background="#111111"
     tools:context="com.codepath.apps.twitterapp.Activities.GalleryActivity">
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/pvGalleryPagerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/ivGalleryPhotoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:transitionName="GalleryPhoto"
-        android:src="@drawable/twitter_logo"
-        android:adjustViewBounds="true"/>
-    <ImageView
-        android:id="@+id/ivGalleryBlurredPhotoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/twitter_logo"
-        android:adjustViewBounds="true"/>
+
 
     <RelativeLayout
         android:id="@+id/rlGalleryCaption"

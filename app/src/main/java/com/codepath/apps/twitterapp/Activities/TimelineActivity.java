@@ -13,10 +13,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -236,23 +232,5 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             return;
         }
         Util.alphaAnimationCreator(tvNetworkUnavailable, show, 800);
-//        final float alpha = show?0.0f:1.0f;
-//        AlphaAnimation fade = new AlphaAnimation(alpha, 1-alpha);
-//        fade.setAnimationListener(
-//                new Animation.AnimationListener() {
-//                    @Override
-//                    public void onAnimationStart(Animation animation) {
-//                    }
-//                    @Override
-//                    public void onAnimationEnd(Animation animation) {
-//                        tvNetworkUnavailable.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
-//                    }
-//                    @Override
-//                    public void onAnimationRepeat(Animation animation) {
-//                    }
-//                }
-//        );
-//        fade.setDuration(800);
-//        tvNetworkUnavailable.startAnimation(fade);
     }
 }

@@ -55,15 +55,7 @@ public class DetailTweetActivity extends AppCompatActivity implements ComposeDia
 
         final AppCompatActivity appCompatActivity = this;
         final ImageView ivMediaView = (ImageView)findViewById(R.id.ivMedia);
-        ivMediaView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(getApplicationContext(), GalleryActivity.class);
-                galleryIntent.putExtra("tweet", Parcels.wrap(tweet));
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(appCompatActivity, (View)ivMediaView, "GalleryPhoto");
-                startActivity(galleryIntent, options.toBundle());
-            }
-        });
+
 
         TwitterClient client = TwitterApplication.getRestClient(); // singleton client
         client.getTweet(Long.toString(tweet.id), parseTweetHandler());

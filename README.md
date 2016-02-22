@@ -43,13 +43,23 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [x] Reuse Profile Fragment/View in compose/timeline/detail to implement same logic easily
+* [x] Implement textView to let the user know there is no network
+* [x] User is able to like and retweet
+* [x] implements Gallery if more than 1 photo
+* [x] Animation and blur images in gallery
+* [x] Activity Transitions betweet timeline/detail to animate tweet texts and photo
+* [x] gradient Background for caption in gallery and timeline
+
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec9.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec10.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec11.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
