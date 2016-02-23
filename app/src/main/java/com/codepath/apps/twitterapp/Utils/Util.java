@@ -1,5 +1,6 @@
 package com.codepath.apps.twitterapp.Utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.renderscript.Allocation;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 
 import com.bumptech.glide.load.engine.Resource;
 import com.codepath.apps.twitterapp.PersistModel.PersistentTweet;
@@ -19,6 +21,8 @@ import com.codepath.apps.twitterapp.models.Tweet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -102,6 +106,25 @@ public class Util {
         );
         fade.setDuration(duration);
         view.startAnimation(fade);
+    }
+    public static void blurrLoadingImage(ImageView imageView, String url) {
+        blurrLoadingImage(imageView, url, 20);
+    }
+
+    public static void blurrLoadingImage(ImageView imageView, String url, final int blurredRadius) {
+        final Context context = imageView.getContext();
+        Picasso.with(context).load(url).transform(new Transformation() {
+            @Override
+            public Bitmap transform(Bitmap source) {
+                Bitmap b = Blur.fastblur(context, source, blurredRadius);
+                source.recycle();
+                return b;
+            }
+            @Override
+            public String key() {
+                return "blur";
+            }
+        }).into(imageView);
     }
 
 }

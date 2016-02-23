@@ -1,14 +1,13 @@
 package com.codepath.apps.twitterapp.models;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
-import com.activeandroid.annotation.Table;
 import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcel;
 
 /**
  * Created by wilsonsu on 2/20/16.
  */
-@org.parceler.Parcel
+@Parcel
 public class User {
     @SerializedName("id_str")
     public String id;
@@ -20,6 +19,26 @@ public class User {
     @SerializedName("profile_image_url")
     public String profileImageUrl;
 
+    public String location;
+    @SerializedName("followers_count")
+    public int followersCount;
+    @SerializedName("friends_count")
+    public int friendsCount;
+    @SerializedName("listed_count")
+    public int listedCount;
+    @SerializedName("favourites_count")
+    public int favouritesCount;
+    @SerializedName("statuses_count")
+    public int statusesCount;
+    @SerializedName("profile_banner_url")
+    public String profileCoverPhotoUrl;
+    public boolean following;
+    @SerializedName("follow_request_sent")
+    public boolean followRequestSent;
+
     public User() {
     }
+
+
+
 }

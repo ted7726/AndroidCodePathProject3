@@ -14,7 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.twitterapp.Activities.DetailTweetActivity;
 import com.codepath.apps.twitterapp.Activities.GalleryActivity;
+import com.codepath.apps.twitterapp.Activities.ProfileActivity;
 import com.codepath.apps.twitterapp.DialogFragment.VideoFragmentDialog;
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.Utils.Util;
@@ -34,8 +36,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
     ImageView ivStatus;
     @Bind(R.id.ivMedia) ImageView ivMedia;
     @Bind(R.id.ivUserProfile) ImageView ivUserProfile;
-    @Bind(R.id.tvName)
-    TextView tvName;
+    @Bind(R.id.tvName) TextView tvName;
     @Bind(R.id.tvUsername) TextView tvUsername;
     @Bind(R.id.tvStatus) TextView  tvStatus;
     @Bind(R.id.tvTweetTags) TextView tvTweetTags;
@@ -45,17 +46,18 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
     ImageButton ibPlayButton;
     @Bind(R.id.rlMediaView)
     RelativeLayout rlMediaView;
+    private Tweet tweet;
 
-    public TweetViewHolder(View itemView, FragmentActivity fragmentActivity) {
+    public TweetViewHolder(final View itemView, final FragmentActivity fragmentActivity) {
         // Stores the itemView in a public final member variable that can be used
         // to access the fragmentActivity from any TweetViewHolder instance.
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.fragmentActivity = fragmentActivity;
-
     }
 
     public void setTweet(Tweet tweet) {
+        this.tweet = tweet;
 
         if (tweet.retweet!=null) {
             Util.setLayoutHeight(true, ivStatus);
@@ -94,6 +96,12 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
             Context context = ivUserProfile.getContext();
             String url = tweet.user.profileImageUrl;
             Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
+            ivUserProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onProfileClick();
+                }
+            });
         }
         ibPlayButton.setVisibility(View.INVISIBLE);
         ivMedia.setImageResource(0);
@@ -102,13 +110,10 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
             if (media.video!=null && media.video.variants.size()>0 && media.video.variants.get(0).url!=null) {
                 ibPlayButton.setVisibility(View.VISIBLE);
                 final String url = media.video.variants.get(0).url;
-
                 ibPlayButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
-                        VideoFragmentDialog videoFD = VideoFragmentDialog.newInstance(url);
-                        videoFD.show(fm, "fragment_video");
+                    onVideoPlayClick(url);
                     }
                 });
             }
@@ -117,22 +122,63 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                 Context context = ivMedia.getContext();
                 Glide.with(context).load(media.media_url).override(media.sizes.medium.w, media.sizes.medium.h).fitCenter().placeholder(R.drawable.ic_pics).into(ivMedia);
 
-                final Tweet finalTweet = tweet;
                 ivMedia.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent galleryIntent = new Intent(fragmentActivity.getApplicationContext(), GalleryActivity.class);
-                        galleryIntent.putExtra("tweet", Parcels.wrap(finalTweet));
-                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, ivMedia, "GalleryPhoto");
-                        fragmentActivity.startActivity(galleryIntent, options.toBundle());
+                        onMediaClick();
                     }
                 });
             }
             Util.setLayoutHeight(true, rlMediaView);
         } else {
             Util.setLayoutHeight(false, rlMediaView);
-
         }
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClick();
+            }
+        });
+    }
+
+
+
+    /** click handlers: **/
+    private void onItemClick() {
+        if (fragmentActivity instanceof DetailTweetActivity) {
+            return;
+        }
+        Intent intent = new Intent(fragmentActivity.getApplicationContext(), DetailTweetActivity.class);
+        intent.putExtra("tweet", Parcels.wrap(tweet));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, itemView, "TweetContent");
+        fragmentActivity.startActivity(intent, options.toBundle());
+
+    }
+
+    private void onMediaClick() {
+        Intent galleryIntent = new Intent(fragmentActivity.getApplicationContext(), GalleryActivity.class);
+        galleryIntent.putExtra("tweet", Parcels.wrap(tweet));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, ivMedia, "GalleryPhoto");
+        fragmentActivity.startActivity(galleryIntent, options.toBundle());
+
+    }
+
+    private void onProfileClick() {
+        Intent intent = new Intent(fragmentActivity.getApplicationContext(), ProfileActivity.class);
+        Tweet passingTweet = tweet;
+        if (tweet.retweet != null) {
+            passingTweet = tweet.retweet;
+        }
+        intent.putExtra("user", Parcels.wrap(passingTweet.user));
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, ivUserProfile, "TweetProfile");
+        fragmentActivity.startActivity(intent, options.toBundle());
+    }
+
+    private void onVideoPlayClick(final String url) {
+        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+        VideoFragmentDialog videoFD = VideoFragmentDialog.newInstance(url);
+        videoFD.show(fm, "fragment_video");
     }
 
 }

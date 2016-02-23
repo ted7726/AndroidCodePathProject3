@@ -53,10 +53,6 @@ public class DetailTweetActivity extends AppCompatActivity implements ComposeDia
         TextView tvTweetTexts = (TextView)findViewById(R.id.tvTweetTexts);
         tvTweetTexts.setTextSize(24);
 
-        final AppCompatActivity appCompatActivity = this;
-        final ImageView ivMediaView = (ImageView)findViewById(R.id.ivMedia);
-
-
         TwitterClient client = TwitterApplication.getRestClient(); // singleton client
         client.getTweet(Long.toString(tweet.id), parseTweetHandler());
     }

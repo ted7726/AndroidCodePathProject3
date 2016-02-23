@@ -17,13 +17,14 @@ import java.util.ArrayList;
  * Created by weishengsu on 2/15/16.
  */
 public class TweetsArrayAdapter extends RecyclerView.Adapter<TweetViewHolder> {
-
+    public static TweetsArrayAdapter sharedAdapter;
     private ArrayList<Tweet> tweets;
     private FragmentActivity timelineActivity;
 
     public TweetsArrayAdapter(FragmentActivity timelineActivity, ArrayList<Tweet> tweets) {
         this.tweets = tweets;
         this.timelineActivity = timelineActivity;
+        sharedAdapter = this;
     }
 
     @Override

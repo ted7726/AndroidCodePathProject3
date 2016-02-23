@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -89,16 +88,10 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
             }
         });
 
-        final AppCompatActivity appCompatActivity = this;
         rvTimeline.addOnItemTouchListener(new RecyclerViewItemClickListener(this, new RecyclerViewItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 detailTweetPosition = position;
-                Intent intent = new Intent(getApplicationContext(), DetailTweetActivity.class);
-                intent.putExtra("tweet", Parcels.wrap(tweets.get(position)));
-                View tweetContentView = view.findViewById(R.id.tweetContentView);
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(appCompatActivity, tweetContentView, "TweetContent");
-                startActivity(intent, options.toBundle());
             }
         }));
 

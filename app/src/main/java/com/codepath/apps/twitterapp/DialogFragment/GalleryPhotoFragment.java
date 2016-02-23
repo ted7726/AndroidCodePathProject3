@@ -32,8 +32,7 @@ public class GalleryPhotoFragment extends Fragment {
     @Bind(R.id.ivGalleryPhotoView) ImageView ivPhotoView;
     @Bind(R.id.ivGalleryBlurredPhotoView) ImageView ivBlurredPhotoView;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.item_gallery_photo, container, false);
         ButterKnife.bind(this, rootView);
         setupGalleryPhoto();
@@ -50,20 +49,8 @@ public class GalleryPhotoFragment extends Fragment {
         }
 
         ivBlurredPhotoView.setVisibility(View.INVISIBLE);
-        final Context context = ivBlurredPhotoView.getContext();
         Glide.with(ivPhotoView.getContext()).load(media.media_url).fitCenter().into(ivPhotoView);
-        Picasso.with(context).load(media.media_url).transform(new Transformation() {
-            @Override
-            public Bitmap transform(Bitmap source) {
-                Bitmap b = Blur.fastblur(context, source, 20);
-                source.recycle();
-                return b;
-            }
-            @Override
-            public String key() {
-                return "blur";
-            }
-        }).into(ivBlurredPhotoView);
+        Util.blurrLoadingImage(ivBlurredPhotoView, media.media_url);
     }
 
     public void blurPhoto(boolean blur) {
