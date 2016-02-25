@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import com.bumptech.glide.load.engine.Resource;
+import com.codepath.apps.twitterapp.CallBack;
 import com.codepath.apps.twitterapp.DialogFragment.ComposeDialog;
 import com.codepath.apps.twitterapp.R;
 import com.codepath.apps.twitterapp.TwitterApplication;
@@ -71,18 +72,11 @@ public class DetailTweetActivity extends AppCompatActivity implements ComposeDia
         client.replyTweet(composeText, Long.toString(tweet.id),parseTweetHandler());
     }
 
-    private JsonHttpResponseHandler parseTweetHandler() {
-        return new JsonHttpResponseHandler(){
+    private CallBack parseTweetHandler() {
+        return new CallBack(){
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                tweet = Tweet.fromJson(response);
+            public void tweetCallBack(Tweet tweet) {
                 setTweet(tweet);
-                super.onSuccess(statusCode, headers, response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
             }
         };
     }

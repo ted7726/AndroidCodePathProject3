@@ -1,5 +1,6 @@
 package com.codepath.apps.twitterapp.models;
 
+import com.codepath.apps.twitterapp.CallBack;
 import com.codepath.apps.twitterapp.TwitterClient;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -15,17 +16,10 @@ public class CurrentUser {
     private TwitterClient client;
 
     public CurrentUser(TwitterClient client) {
-        client.getCurrentUser(new JsonHttpResponseHandler(){
+        client.getCurrentUser(new CallBack() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Gson gson = new Gson();
-                user = gson.fromJson(response.toString(), User.class);
-                super.onSuccess(statusCode, headers, response);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
+            public void userCallBack(User returnUser) {
+                user = returnUser;
             }
         });
     }

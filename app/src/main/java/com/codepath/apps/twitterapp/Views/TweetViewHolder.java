@@ -26,6 +26,7 @@ import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by wilsonsu on 2/20/16.
@@ -96,12 +97,6 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
             Context context = ivUserProfile.getContext();
             String url = tweet.user.profileImageUrl;
             Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
-            ivUserProfile.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onProfileClick();
-                }
-            });
         }
         ibPlayButton.setVisibility(View.INVISIBLE);
         ivMedia.setImageResource(0);
@@ -113,7 +108,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                 ibPlayButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                    onVideoPlayClick(url);
+                        onVideoPlayClick(url);
                     }
                 });
             }
@@ -121,13 +116,6 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
             if (!TextUtils.isEmpty(media.media_url)) {
                 Context context = ivMedia.getContext();
                 Glide.with(context).load(media.media_url).override(media.sizes.medium.w, media.sizes.medium.h).fitCenter().placeholder(R.drawable.ic_pics).into(ivMedia);
-
-                ivMedia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        onMediaClick();
-                    }
-                });
             }
             Util.setLayoutHeight(true, rlMediaView);
         } else {
@@ -156,7 +144,8 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    private void onMediaClick() {
+    @OnClick(R.id.ivMedia)
+    public void onMediaClick() {
         Intent galleryIntent = new Intent(fragmentActivity.getApplicationContext(), GalleryActivity.class);
         galleryIntent.putExtra("tweet", Parcels.wrap(tweet));
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, ivMedia, "GalleryPhoto");
@@ -164,7 +153,8 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    private void onProfileClick() {
+    @OnClick(R.id.ivUserProfile)
+    public void onProfileClick() {
         Intent intent = new Intent(fragmentActivity.getApplicationContext(), ProfileActivity.class);
         Tweet passingTweet = tweet;
         if (tweet.retweet != null) {
@@ -175,7 +165,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         fragmentActivity.startActivity(intent, options.toBundle());
     }
 
-    private void onVideoPlayClick(final String url) {
+    public void onVideoPlayClick(final String url) {
         FragmentManager fm = fragmentActivity.getSupportFragmentManager();
         VideoFragmentDialog videoFD = VideoFragmentDialog.newInstance(url);
         videoFD.show(fm, "fragment_video");

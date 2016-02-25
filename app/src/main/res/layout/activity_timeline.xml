@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/twitter_background_gradient"
+    android:id="@+id/rlTimelineContainer"
     tools:context=".Activities.TimelineActivity">
 
     <android.support.design.widget.FloatingActionButton
@@ -23,42 +25,23 @@
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.astuetz.PagerSlidingTabStrip
+                android:id="@+id/pgTabs"
+                app:pstsShouldExpand="true"
+                app:pstsTextAllCaps="true"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvTimeline"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/vpViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white" />
+        </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
-    <TextView
-        android:id="@+id/tvNetworkUnavailable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#CCAA1111"
-        android:text="Network is Unavailable"
-        android:gravity="center_horizontal"
-        android:padding="3dp"
-        android:textColor="#ffffff"
-        />
-
-
-    <RelativeLayout
-        android:id="@+id/prLoadingSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#88000000">
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-
-
+    <include layout="@layout/network_spinner_wrapper"/>
 </RelativeLayout>

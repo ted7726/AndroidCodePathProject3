@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tvNetworkUnavailable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#CCAA1111"
+        android:text="Network is Unavailable"
+        android:gravity="center_horizontal"
+        android:padding="3dp"
+        android:textColor="#ffffff"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/prLoadingSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88000000">
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

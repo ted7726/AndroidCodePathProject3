@@ -1,7 +1,10 @@
 package com.codepath.apps.twitterapp.models;
 
+import com.codepath.apps.twitterapp.Utils.Util;
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONObject;
 import org.parceler.Parcel;
 
 /**
@@ -37,6 +40,12 @@ public class User {
     public boolean followRequestSent;
 
     public User() {
+    }
+
+    public static User fromJson(JSONObject response) {
+        Gson gson = new Gson();
+        User user = gson.fromJson(response.toString(), User.class);
+        return user;
     }
 
 
