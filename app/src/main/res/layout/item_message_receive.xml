@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    >
+    <com.makeramen.roundedimageview.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:riv_corner_radius="16dp"
+        android:id="@+id/ivMessageUserProfile"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/tvMessage"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        />
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ivMessageUserProfile"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/rounded_corner_receive"
+        android:padding="7dp"
+        android:fontFamily="@string/font_sans_serif_regular"
+        android:textColor="@color/twitterColor"
+        android:text="Hello!!!"/>
+    <TextView
+        android:id="@+id/tvMessageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvMessage"
+        android:layout_toRightOf="@+id/tvMessage"
+        android:padding="2dp"
+        android:fontFamily="@string/font_sans_serif_regular"
+        android:textSize="10sp"
+        android:textColor="#8899BB"
+        android:text="11:50pm"
+        />
+
+</RelativeLayout>

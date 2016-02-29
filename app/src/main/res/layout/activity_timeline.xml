@@ -33,6 +33,7 @@
                 android:id="@+id/pgTabs"
                 app:pstsShouldExpand="true"
                 app:pstsTextAllCaps="true"
+                app:pstsIndicatorColor="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="48dp" />
 
@@ -40,7 +41,7 @@
                 android:id="@+id/vpViewPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white" />
+                android:background="@android:color/transparent" />
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
     <include layout="@layout/network_spinner_wrapper"/>

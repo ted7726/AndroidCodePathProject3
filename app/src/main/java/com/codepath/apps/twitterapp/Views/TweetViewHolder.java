@@ -17,8 +17,12 @@ import com.bumptech.glide.Glide;
 import com.codepath.apps.twitterapp.Activities.DetailTweetActivity;
 import com.codepath.apps.twitterapp.Activities.GalleryActivity;
 import com.codepath.apps.twitterapp.Activities.ProfileActivity;
+import com.codepath.apps.twitterapp.CallBack;
+import com.codepath.apps.twitterapp.DialogFragment.ComposeDialog;
 import com.codepath.apps.twitterapp.DialogFragment.VideoFragmentDialog;
 import com.codepath.apps.twitterapp.R;
+import com.codepath.apps.twitterapp.TwitterApplication;
+import com.codepath.apps.twitterapp.TwitterClient;
 import com.codepath.apps.twitterapp.Utils.Util;
 import com.codepath.apps.twitterapp.models.Tweet;
 
@@ -43,10 +47,13 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.tvTweetTags) TextView tvTweetTags;
     @Bind(R.id.tvTweetTexts) TextView tvTweetTexts;
     @Bind(R.id.tvTweetTime) TextView tvTweetTime;
-    @Bind(R.id.ibPlayButton)
-    ImageButton ibPlayButton;
-    @Bind(R.id.rlMediaView)
-    RelativeLayout rlMediaView;
+    @Bind(R.id.ibPlayButton) ImageButton ibPlayButton;
+    @Bind(R.id.rlMediaView) RelativeLayout rlMediaView;
+    @Bind(R.id.ibReplyButton) ImageButton ibReplyButton;
+    @Bind(R.id.ibRetweetButton) ImageButton ibRetweetButton;
+    @Bind(R.id.ibFavoriteButton) ImageButton ibFavoriteButton;
+    @Bind(R.id.tvRetweetCount) TextView tvRetweetCount;
+    @Bind(R.id.tvFavoriteCount) TextView tvFavoriteCount;
     private Tweet tweet;
 
     public TweetViewHolder(final View itemView, final FragmentActivity fragmentActivity) {
@@ -80,6 +87,10 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         tvUsername.setText(Util.checkStringEmpty("@" + tweet.user.screenName));
         tvTweetTexts.setText(Util.checkStringEmpty(tweet.text));
         tvTweetTime.setText(Util.converTimetoRelativeTime(tweet.time));
+        tvRetweetCount.setText(Integer.toString(tweet.retweetCount));
+        tvFavoriteCount.setText(Integer.toString(tweet.favoriteCount));
+        ibFavoriteButton.setImageResource(tweet.favorited ? R.drawable.ic_liked : R.drawable.ic_like);
+
         if (tweet.entities!= null && tweet.entities.users!=null && tweet.entities.users.size()>0) {
             int len = tweet.entities.users.size();
             String tags = "";
@@ -100,7 +111,7 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         }
         ibPlayButton.setVisibility(View.INVISIBLE);
         ivMedia.setImageResource(0);
-        if (tweet.entities!=null && tweet.entities.media!= null && tweet.entities.media.size()>0) {
+        if (tweet.entities!=null && tweet.entities.media!= null && tweet.entities.media.size()>0 && tweet.extendedEntities!=null && tweet.extendedEntities.medias!=null && tweet.extendedEntities.medias.size()>0) {
             final Tweet.EntitiesEntity.Media media = tweet.extendedEntities.medias.get(0);
             if (media.video!=null && media.video.variants.size()>0 && media.video.variants.get(0).url!=null) {
                 ibPlayButton.setVisibility(View.VISIBLE);
@@ -128,6 +139,15 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
                 onItemClick();
             }
         });
+    }
+
+    private CallBack parseUpdateTweetHandler() {
+        return new CallBack(){
+            @Override
+            public void tweetCallBack(Tweet tweet) {
+                setTweet(tweet);
+            }
+        };
     }
 
 
@@ -163,6 +183,25 @@ public class TweetViewHolder extends RecyclerView.ViewHolder {
         intent.putExtra("user", Parcels.wrap(passingTweet.user));
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragmentActivity, ivUserProfile, "TweetProfile");
         fragmentActivity.startActivity(intent, options.toBundle());
+    }
+
+    @OnClick(R.id.ibReplyButton)
+    public void onReplyClick() {
+        FragmentManager fm = fragmentActivity.getSupportFragmentManager();
+        ComposeDialog composeFD = ComposeDialog.newInstance(tweet);
+        composeFD.show(fm, "reply_fragment");
+    }
+
+    @OnClick(R.id.ibFavoriteButton)
+    public void onHeart() {
+        TwitterClient client = TwitterApplication.getRestClient(); // singleton client
+        client.likeTweet(Long.toString(tweet.id), !tweet.favorited, parseUpdateTweetHandler());
+    }
+
+    @OnClick(R.id.ibRetweetButton)
+    public void onRetweet() {
+        TwitterClient client = TwitterApplication.getRestClient(); // singleton client
+        client.retweet(Long.toString(tweet.id), !tweet.retweeted, parseUpdateTweetHandler());
     }
 
     public void onVideoPlayClick(final String url) {

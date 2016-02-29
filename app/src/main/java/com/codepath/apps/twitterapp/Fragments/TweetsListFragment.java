@@ -39,7 +39,7 @@ import butterknife.ButterKnife;
 /**
  * Created by wilsonsu on 2/24/16.
  */
-public class TweetsListFragment extends Fragment implements ComposeDialog.ComposeDialogListener {
+public class TweetsListFragment extends Fragment {
     private ArrayList<Tweet> tweets;
     private TweetsArrayAdapter tweetsArrayAdapter;
     private long maxId;
@@ -82,7 +82,7 @@ public class TweetsListFragment extends Fragment implements ComposeDialog.Compos
         maxId = 1;
     }
 
-    private void setup(View view) {
+    protected void setup(View view) {
         // setup Recycler View
         RecyclerView rvTimeline = (RecyclerView) view.findViewById(R.id.rvTimeline);
         rvTimeline.setAdapter(tweetsArrayAdapter);
@@ -129,12 +129,7 @@ public class TweetsListFragment extends Fragment implements ComposeDialog.Compos
 
         return new CallBack() {
             @Override
-            public void tweetsCallBack(ArrayList<Tweet> newTweets, JSONArray response) {
-                try {
-                    Util.persistData(response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void tweetsCallBack(ArrayList<Tweet> newTweets) {
                 if (isRefresh) {
                     tweets.clear();
                 }
@@ -159,7 +154,23 @@ public class TweetsListFragment extends Fragment implements ComposeDialog.Compos
         prLoadingSpinner.setVisibility(View.INVISIBLE);
     }
 
+    public void onFinishComposeDialog(String composeText, String tweetId) {
+        prLoadingSpinner.setVisibility(View.VISIBLE);
+        client.replyTweet(composeText, tweetId, new CallBack() {
+            @Override
+            public void tweetCallBack(Tweet tweet) {
+                tweets.add(0, tweet);
+                tweetsArrayAdapter.notifyDataSetChanged();
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
+            }
 
+            @Override
+            public void onFailureCallBack(JSONObject errorResponse) {
+                prLoadingSpinner.setVisibility(View.INVISIBLE);
+            }
+        });
+
+    }
 
     public void onFinishComposeDialog(String composeText) {
         prLoadingSpinner.setVisibility(View.VISIBLE);

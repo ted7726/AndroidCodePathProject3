@@ -59,19 +59,6 @@ public class Util {
         // Mon Feb 15 17:31:31 +0000 2016
         return new GsonBuilder().setDateFormat("EEE MMM dd HH:mm:ss zzzzz yyyy").create();
     }
-
-    public static void persistData(JSONArray response) throws JSONException {
-        for (int i=0;i<response.length();++i) {
-            persistData(response.getJSONObject(i));
-        }
-    }
-    public static void persistData(JSONObject response) throws JSONException {
-        PersistentTweet tweet = PersistentTweet.fromJson(response);
-        if (tweet!=null) {
-            tweet.save();
-        }
-    }
-
     public static Tweet tweetConverter (PersistentTweet persistentTweet) {
         Gson gson = gsonCreatorFortweeterDateFormater();
         if (persistentTweet==null) {

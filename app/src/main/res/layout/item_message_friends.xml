@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:transitionName="userContent"
+    >
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+
+        card_view:cardElevation="4dp">
+        <ImageView
+            android:id="@+id/ivCoverBlurredPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:padding="10dp"
+            android:background="@drawable/message_background_gradient"
+            >
+            <com.makeramen.roundedimageview.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                app:riv_corner_radius="24dp"
+                android:id="@+id/ivMessageUserProfile"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:padding="2dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                />
+            <TextView
+                android:id="@+id/tvMessageName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/ivMessageUserProfile"
+                android:padding="2dp"
+                android:text="username"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:fontFamily="@string/font_sans_serif_medium"
+                />
+            <TextView
+                android:id="@+id/tvLastMessages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/ivMessageUserProfile"
+                android:layout_below="@id/tvMessageName"
+                android:padding="2dp"
+                android:text="\@username"
+                android:textSize="13sp"
+                android:textColor="#AABBDD"
+                android:gravity="center_vertical"
+                android:fontFamily="@string/font_sans_serif_regular"
+                />
+            <TextView
+                android:id="@+id/tvMessageLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignBottom="@+id/tvLastMessages"
+                android:gravity="center_vertical"
+                android:textColor="@color/twitterColor"
+                android:text="San Francisco"
+                android:textSize="13sp"
+                android:fontFamily="@string/font_sans_serif_light"
+                />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_location"
+                android:layout_toLeftOf="@id/tvMessageLocation"
+                android:layout_alignBottom="@+id/tvLastMessages"
+                />
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+</RelativeLayout>

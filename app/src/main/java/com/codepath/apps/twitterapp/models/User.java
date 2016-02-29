@@ -1,6 +1,5 @@
 package com.codepath.apps.twitterapp.models;
 
-import com.codepath.apps.twitterapp.Utils.Util;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,6 +13,8 @@ import org.parceler.Parcel;
 public class User {
     @SerializedName("id_str")
     public String id;
+    @SerializedName("id")
+    public long userId;
     public String name;
     @SerializedName("screen_name")
     public String screenName;
@@ -21,6 +22,9 @@ public class User {
     public String url;
     @SerializedName("profile_image_url")
     public String profileImageUrl;
+
+
+    public String profileImageUrlBigger;
 
     public String location;
     @SerializedName("followers_count")
@@ -49,5 +53,7 @@ public class User {
     }
 
 
-
+    public String getProfileImageUrlBigger() {
+        return profileImageUrl.replace("normal","bigger");
+    }
 }

@@ -20,6 +20,7 @@
         android:background="#AAFFFFFF"
         android:nestedScrollingEnabled="true">
         <LinearLayout
+            android:id="@+id/tweetContentView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -27,10 +28,10 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:background="@color/transparent">
-        <include layout="@layout/tweet_layout" />
-        <include layout="@layout/tweet_action_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <include layout="@layout/tweet_layout" />
+            <include layout="@layout/tweet_action_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
     <ImageButton

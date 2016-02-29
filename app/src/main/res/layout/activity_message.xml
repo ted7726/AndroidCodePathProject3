@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.codepath.apps.twitterapp.Activities.MessageActivity">
+    <include layout="@layout/item_message_friends"
+        android:id="@+id/header_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+    />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvMessages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_below="@id/header_friend"
+        android:layout_above="@+id/etSendingText"
+        />
+    <EditText
+        android:id="@+id/etSendingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/btSend"
+        android:layout_alignTop="@+id/btSend"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="#00ffffff"
+        android:padding="10dp"
+        android:textColorHint="#99AACC"
+        android:textSize="14sp"
+        android:hint="Type a message...."
+        />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btSend"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:backgroundTint="#339DC3"
+        android:src="@drawable/ic_twitter" />
+    <include layout="@layout/network_spinner_wrapper"/>
+</RelativeLayout>

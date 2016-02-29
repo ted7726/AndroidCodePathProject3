@@ -6,7 +6,7 @@
     <com.makeramen.roundedimageview.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         app:riv_corner_radius="24dp"
-        android:id="@+id/ivComposeUserProfile"
+        android:id="@+id/ivMessageUserProfile"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentLeft="true"
@@ -18,11 +18,11 @@
 
         />
     <TextView
-        android:id="@+id/tvComposeName"
+        android:id="@+id/tvMessageName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/ivComposeUserProfile"
+        android:layout_toRightOf="@id/ivMessageUserProfile"
         android:padding="2dp"
         android:text="username"
         android:textSize="16sp"
@@ -33,8 +33,8 @@
         android:id="@+id/tvComposeUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/ivComposeUserProfile"
-        android:layout_below="@id/tvComposeName"
+        android:layout_toRightOf="@id/ivMessageUserProfile"
+        android:layout_below="@id/tvMessageName"
         android:padding="2dp"
         android:text="\@username"
         android:textSize="12sp"
