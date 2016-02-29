@@ -46,6 +46,8 @@ The following **additional** features are implemented:
 * [x] user be able to follow/unfollow other users
 * [x] simplify and introduce CallBack Class to easier to override the callback function instead of creating a new JsonHttpResponseHandler
 * [x] Message Controller, which has its own task queue to handle serial calls to get receiving and sending messages, and is able to process all the task in the queue
+* [x] Leverage Transitions between all the activity
+* [x] usering Coordinatelayout AppBar, scale/animation/blurred
 
 
 
