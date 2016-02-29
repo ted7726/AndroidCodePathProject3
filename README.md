@@ -46,9 +46,13 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
+### Reply/Retweet/like/New post/Message/Search/Profile
 <img src='rec101.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+### Profile
 <img src='rec2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+### follow/unfollow/message from porfile
 <img src='rec102.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+### Search
 <img src='rec6.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
