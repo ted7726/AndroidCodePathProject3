@@ -39,8 +39,15 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [x] mimic profile twitter app
-* [x] implement chat functions
+* [x] mimic profile twitter app and scrolling effects
+* [x] implement live chat functions, navigate friends, sending messages, shows once it sent
+* [x] Centralize the Tweets data in a singleton controller to keep synced and persistent for all the tweets in the app
+* [x] PageView in profile page
+* [x] user be able to follow/unfollow other users
+* [x] simplify and introduce CallBack Class to easier to override the callback function instead of creating a new JsonHttpResponseHandler
+* [x] Message Controller, which has its own task queue to handle serial calls to get receiving and sending messages, and is able to process all the task in the queue
+
+
 
 ## Video Walkthrough 
 
@@ -54,6 +61,8 @@ Here's a walkthrough of implemented user stories:
 <img src='rec102.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 ### Search
 <img src='rec6.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+### Gallery
+<img src='rec3.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

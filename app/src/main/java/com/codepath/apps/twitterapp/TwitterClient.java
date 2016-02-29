@@ -44,30 +44,8 @@ public class TwitterClient extends OAuthBaseClient {
 	public static final Class<? extends Api> REST_API_CLASS = TwitterApi.class; // Change this
 	public static final String REST_URL = "https://api.twitter.com/1.1"; // Change this, base API URL
 
-	// Messages:
-//	public static final String REST_CONSUMER_KEY = "LCRXmYliAte36KEbzzY3lu325";
-//	public static final String REST_CONSUMER_SECRET = "PrjLu2NcD8KfnBYoaljfpbpW9DcSUbqdbkHrr9V1NzM1f82vRG";
 	public static final String REST_CONSUMER_KEY = "RZWwRfcmXwa9jcxgTTdbjXijl";
 	public static final String REST_CONSUMER_SECRET = "cGyAmLBj096a91UChhJG6qweNfnJvOO2NYuyQYMrNDJHROYuAo";
-
-
-//	public static final String REST_CONSUMER_KEY = "4QHE4kyiC3c3T1U1KW4oc7PFt";
-//	public static final String REST_CONSUMER_SECRET = "BDsANeiRZjbi5FwKgh7FwQ56dGBIPKq4AFPXRRMMS3ZWyCcZx8";
-//	public static final String REST_CONSUMER_KEY = "GH7FU0AemrboNrOgcsVeTQ";
-//	public static final String REST_CONSUMER_SECRET = "9OTdKBiifxjOddUmP3IabYsTilp2ehoatN8iGrrWXw";
-//	public static final String REST_CONSUMER_KEY = "olBsWJc8mwdZ4DMbXKrI6Gift";
-//	public static final String REST_CONSUMER_SECRET = "qQqPSZOnANz7Ndb6htieA3HcULh20nMLlHTCfXFZkYmriMJOGW";
-//	public static final String REST_CONSUMER_KEY = "Y6slPsZehRLPprJPddoyB20OL";
-//	public static final String REST_CONSUMER_SECRET = "46hsFGdw4Fy9zRtVCRM2D1Yz7fMXeLXXemNumNDBbsrW42I3zo";
-//	public static final String REST_CONSUMER_KEY = "IAyNXfHb8xLcZgGKjhH1JA";
-//	public static final String REST_CONSUMER_SECRET = "BwhB1M7pxwRstuyK55Z9987PwXqDNo357YBJLgT4";
-//	public static final String REST_CONSUMER_KEY = "RXq7WuE5mbKUq6GZ06mzp6VvX";
-//	public static final String REST_CONSUMER_SECRET = "lxiuL63ahhftZnEmwHpZr0XgEcAb5Zh6hjK2yBOW0ysgZAmOP9";
-
-//	public static final String REST_CONSUMER_KEY = "ULxEd9osOTzFk6FAVjkfR3rSk";
-//	public static final String REST_CONSUMER_SECRET = "8Uh6Uq2JjEDxn7G0ivFljYEq43jqSSz1LungXfa91zGNB1Ia98";
-
-
 
 	public static final String REST_CALLBACK_URL = "oauth://cpsimpletweets"; // Change this (here and in manifest)
 
