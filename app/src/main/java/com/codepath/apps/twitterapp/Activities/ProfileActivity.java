@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.media.Image;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
+import com.codepath.apps.twitterapp.Adapters.ProfilePagerAdapter;
 import com.codepath.apps.twitterapp.Adapters.TweetsArrayAdapter;
+import com.codepath.apps.twitterapp.Adapters.TweetsPagerAdapter;
 import com.codepath.apps.twitterapp.CallBack;
 import com.codepath.apps.twitterapp.Fragments.UserTimelineFragment;
 import com.codepath.apps.twitterapp.R;
@@ -58,7 +63,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Bind(R.id.rlCoverTitleBar) RelativeLayout rlCoverTitleBar;
     @Bind(R.id.rlDim) RelativeLayout rlDim;
     @Bind(R.id.ibFollowButton) ImageButton followButton;
-    private UserTimelineFragment userTimelineFragment;
+    @Bind(R.id.vpViewPager) ViewPager vpViewPager;
+    @Bind(R.id.pgTabs) PagerSlidingTabStrip pgSlidingTab;
     private User user;
     private float userProfileOriginY;
     private int userProfileHeight;
@@ -70,9 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Intent intent = getIntent();
         User user = Parcels.unwrap(intent.getParcelableExtra("user"));
-        if (savedInstanceState==null) {
-            setUserTimelineFragment((UserTimelineFragment)getSupportFragmentManager().findFragmentById(R.id.user_timeline_fragment));
-        }
 
         TwitterClient client = TwitterApplication.getRestClient(); // singleton client
         client.getUser(user, parseUserCallback());
@@ -87,6 +90,10 @@ public class ProfileActivity extends AppCompatActivity {
                 handleScrolling(appBarLayout, verticalOffset);
             }
         });
+
+        ProfilePagerAdapter profilePagerAdapter= new ProfilePagerAdapter(getSupportFragmentManager(), user);
+        vpViewPager.setAdapter(profilePagerAdapter);
+        pgSlidingTab.setViewPager(vpViewPager);
 
     }
 
@@ -119,18 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
             Glide.with(context).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivUserProfile);
             Glide.with(ivCoverUserProfile.getContext()).load(url).fitCenter().placeholder(R.drawable.ic_profile).into(ivCoverUserProfile);
         }
-
-        if (userTimelineFragment != null) {
-            userTimelineFragment.setUserId(user.id);
-        }
-    }
-
-    public void setUserTimelineFragment(UserTimelineFragment userTimelineFragment) {
-        this.userTimelineFragment = userTimelineFragment;
-        if (userTimelineFragment != null && user!=null) {
-            userTimelineFragment.setUserId(user.id);
-        }
-
     }
 
     private CallBack parseUserCallback() {
@@ -198,9 +193,12 @@ public class ProfileActivity extends AppCompatActivity {
         };
     }
 
-    @OnClick(R.id.tvFollowingsCount)
-    public void onFollowingCLick () {
+    @OnClick(R.id.ibMessageButton)
+    public void onMessageCLick () {
+        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+        intent.putExtra("user", Parcels.wrap(user));
 
+        startActivity(intent);
     }
 
 }

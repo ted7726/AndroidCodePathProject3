@@ -75,6 +75,16 @@
             android:padding="3dp"
             android:src="@drawable/ic_follow"
             android:background="@drawable/rounded_corner_send"></ImageButton>
+        <ImageButton
+            android:id="@+id/ibMessageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivCoverBlurredPhoto"
+            android:layout_toLeftOf="@id/ibFollowButton"
+            android:layout_margin="5dp"
+            android:padding="3dp"
+            android:src="@drawable/ic_message"
+            android:background="@drawable/rounded_corner_send"></ImageButton>
         <TextView
             android:id="@+id/tvProfileDescription"
             android:layout_width="wrap_content"

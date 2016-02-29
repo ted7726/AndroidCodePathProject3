@@ -49,8 +49,8 @@ public class MessageActivity extends AppCompatActivity {
     @Bind(R.id.rvMessages) RecyclerView rvMessages;
     @Bind(R.id.header_friend) View headerView;
     @Bind(R.id.etSendingText) EditText etSendingText;
-    @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
     @Bind(R.id.tvNetworkUnavailable) TextView tvNetworkUnavailable;
+    @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +79,7 @@ public class MessageActivity extends AppCompatActivity {
 //        });
         MessageFriendViewHolder viewHolder = new MessageFriendViewHolder(headerView, this);
         viewHolder.setUser(user);
+        tvNetworkUnavailable.setVisibility(View.INVISIBLE);
         populateMessage();
     }
 

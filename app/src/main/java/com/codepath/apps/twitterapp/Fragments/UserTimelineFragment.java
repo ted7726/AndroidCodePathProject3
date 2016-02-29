@@ -14,6 +14,5 @@ public class UserTimelineFragment extends TweetsListFragment {
 
     public void setUserId(String userId) {
         this.userId = userId;
-        refreshTimeline();
     }
 }

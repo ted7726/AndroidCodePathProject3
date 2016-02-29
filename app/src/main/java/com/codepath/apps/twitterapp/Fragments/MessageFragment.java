@@ -36,6 +36,7 @@ public class MessageFragment extends Fragment {
     private UsersArrayAdapter usersArrayAdapter;
     private ArrayList<User> users;
     protected TwitterClient client;
+    protected User user;
     @Bind(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
     @Bind(R.id.prLoadingSpinner) RelativeLayout prLoadingSpinner;
     @Bind(R.id.tvNetworkUnavailable) TextView tvNetworkUnavailable;
@@ -74,8 +75,16 @@ public class MessageFragment extends Fragment {
         populateUsers();
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public void populateUsers() {
-        client.getFriendList(friendlistHandler());
+        if (user!=null) {
+            client.getFriendList(user.id, friendlistHandler());
+        } else {
+            client.getFriendList(friendlistHandler());
+        }
     }
 
     protected CallBack friendlistHandler() {

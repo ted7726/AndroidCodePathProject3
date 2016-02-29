@@ -34,6 +34,7 @@ public class MessageFriendViewHolder extends RecyclerView.ViewHolder {
     @Bind(R.id.tvLastMessages) TextView tvLastMessages;
     @Bind(R.id.ivMessageUserProfile) ImageView ivMessageUserProfile;
     @Bind(R.id.ivCoverBlurredPhoto) ImageView ivCoverBlurredPhoto;
+    @Bind(R.id.ivLocation) ImageView ivLocation;
 
     public MessageFriendViewHolder(View itemView, FragmentActivity fragmentActivity) {
         super(itemView);
@@ -46,6 +47,11 @@ public class MessageFriendViewHolder extends RecyclerView.ViewHolder {
         tvMessageName.setText(Util.checkStringEmpty(user.name));
         tvLastMessages.setText(Util.checkStringEmpty("@" + user.screenName));
         tvMessageLocation.setText(Util.checkStringEmpty(user.location));
+        if (user.location!=null && user.location.length()>0) {
+            ivLocation.setVisibility(View.VISIBLE);
+        } else {
+            ivLocation.setVisibility(View.INVISIBLE);
+        }
         if (!TextUtils.isEmpty(user.profileImageUrl)) {
             Context context = ivMessageUserProfile.getContext();
             String url = user.getProfileImageUrlBigger();

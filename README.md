@@ -12,7 +12,7 @@ The following **required** functionality is completed:
 * [x] User can **switch between Timeline and Mention views using tabs**
   * [x] User can view their home timeline tweets.
   * [x] User can view the recent mentions of their username.
-* [ ] User can navigate to **view their own profile**
+* [x] User can navigate to **view their own profile**
   * [x] User can see picture, tagline, # of followers, # of following, and tweets on their profile.
 * [x] User can **click on the profile image** in any tweet to see **another user's** profile.
  * [x] User can see picture, tagline, # of followers, # of following, and tweets of clicked user.
@@ -21,7 +21,7 @@ The following **required** functionality is completed:
 
 The following **optional** features are implemented:
 
-* [ ] User can view following / followers list through the profile
+* [x] User can view following / followers list through the profile
 * [x] Implements robust error handling, [check if internet is available](http://guides.codepath.com/android/Sending-and-Managing-Network-Requests#checking-for-network-connectivity), handle error cases, network failures
 * [x] When a network request is sent, user sees an [indeterminate progress indicator](http://guides.codepath.com/android/Handling-ProgressBars#progress-within-actionbar)
 * [x] User can **"reply" to any tweet on their home timeline**
@@ -39,13 +39,17 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [x] mimic profile twitter app
+* [x] implement chat functions
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec101.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec2.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec102.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='rec6.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

@@ -47,12 +47,12 @@ public class TwitterClient extends OAuthBaseClient {
 	// Messages:
 //	public static final String REST_CONSUMER_KEY = "LCRXmYliAte36KEbzzY3lu325";
 //	public static final String REST_CONSUMER_SECRET = "PrjLu2NcD8KfnBYoaljfpbpW9DcSUbqdbkHrr9V1NzM1f82vRG";
-//	public static final String REST_CONSUMER_KEY = "RZWwRfcmXwa9jcxgTTdbjXijl";
-//	public static final String REST_CONSUMER_SECRET = "cGyAmLBj096a91UChhJG6qweNfnJvOO2NYuyQYMrNDJHROYuAo";
+	public static final String REST_CONSUMER_KEY = "RZWwRfcmXwa9jcxgTTdbjXijl";
+	public static final String REST_CONSUMER_SECRET = "cGyAmLBj096a91UChhJG6qweNfnJvOO2NYuyQYMrNDJHROYuAo";
 
 
-	public static final String REST_CONSUMER_KEY = "4QHE4kyiC3c3T1U1KW4oc7PFt";
-	public static final String REST_CONSUMER_SECRET = "BDsANeiRZjbi5FwKgh7FwQ56dGBIPKq4AFPXRRMMS3ZWyCcZx8";
+//	public static final String REST_CONSUMER_KEY = "4QHE4kyiC3c3T1U1KW4oc7PFt";
+//	public static final String REST_CONSUMER_SECRET = "BDsANeiRZjbi5FwKgh7FwQ56dGBIPKq4AFPXRRMMS3ZWyCcZx8";
 //	public static final String REST_CONSUMER_KEY = "GH7FU0AemrboNrOgcsVeTQ";
 //	public static final String REST_CONSUMER_SECRET = "9OTdKBiifxjOddUmP3IabYsTilp2ehoatN8iGrrWXw";
 //	public static final String REST_CONSUMER_KEY = "olBsWJc8mwdZ4DMbXKrI6Gift";
@@ -114,9 +114,15 @@ public class TwitterClient extends OAuthBaseClient {
 	public void getFriendList(CallBack callBack) {
 		getClient().get(getApiUrl("friends/list.json"), new RequestParams(), friendsHandler(callBack));
 	}
+	public void getFriendList(String userId, CallBack callBack) {
+		getClient().get(getApiUrl("friends/list.json"), new RequestParams("user_id", userId), friendsHandler(callBack));
+	}
 
 	public void getFollowersList(CallBack callBack) {
 		getClient().get(getApiUrl("followers/list.json"), new RequestParams(), friendsHandler(callBack));
+	}
+	public void getFollowersList(String userId, CallBack callBack) {
+		getClient().get(getApiUrl("followers/list.json"), new RequestParams("user_id", userId), friendsHandler(callBack));
 	}
 
 	public void getMessages(CallBack callBack) {

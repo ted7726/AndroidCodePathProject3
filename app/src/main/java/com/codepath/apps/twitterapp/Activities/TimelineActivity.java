@@ -1,6 +1,8 @@
 package com.codepath.apps.twitterapp.Activities;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -21,6 +23,7 @@ import com.codepath.apps.twitterapp.models.CurrentUser;
 import com.codepath.apps.twitterapp.models.Tweet;
 
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -49,18 +52,46 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         pgSlidingTab.setViewPager(vpViewPager);
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright, android.R.color.holo_green_light, android.R.color.holo_orange_light, android.R.color.holo_red_light);
 
+        pgSlidingTab.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                setupComposeButton(position);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setupComposeButton(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
         // loading user profile
         TwitterClient client = TwitterApplication.getRestClient(); // singleton client
         new CurrentUser(client);
     }
 
+    private void setupComposeButton(int item) {
+        if (item < 2) {
+            composeButton.setImageResource(android.R.drawable.ic_menu_edit);
+        } else {
+            composeButton.setImageResource(R.drawable.ic_profile_white);
+        }
+    }
+
     @OnClick(R.id.fabComposeButton)
     public void onClickCompose() {
-        FragmentManager fm = getSupportFragmentManager();
-        ComposeDialog composeDialog = ComposeDialog.newInstance();
-        composeDialog.show(fm, "compose_fragment");
-        if (vpViewPager.getCurrentItem() == 2) {
-            composeButton.setEnabled(false);
+        if (vpViewPager.getCurrentItem()<2) {
+            FragmentManager fm = getSupportFragmentManager();
+            ComposeDialog composeDialog = ComposeDialog.newInstance();
+            composeDialog.show(fm, "compose_fragment");
+        }
+        else {
+            startUserProfile();
         }
     }
 
@@ -81,4 +112,14 @@ public class TimelineActivity extends AppCompatActivity implements ComposeDialog
         tweetsListFragment.onFinishComposeDialog(composeText, tweetId);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void startUserProfile() {
+        Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+        intent.putExtra("user", Parcels.wrap(CurrentUser.user));
+        startActivity(intent);
+    }
 }

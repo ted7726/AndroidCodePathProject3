@@ -77,6 +77,7 @@
                 android:fontFamily="@string/font_sans_serif_light"
                 />
             <ImageView
+                android:id="@+id/ivLocation"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_location"

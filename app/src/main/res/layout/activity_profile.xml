@@ -20,12 +20,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        app:elevation="2dp">
+        app:elevation="0dp">
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="105dp"
+            android:minHeight="70dp"
             android:paddingBottom="10dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
             <include layout="@layout/profile_header_layout"/>
@@ -37,12 +37,30 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
-            <fragment
-                android:id="@+id/user_timeline_fragment"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:name="com.codepath.apps.twitterapp.Fragments.UserTimelineFragment"
-                tools:layout="@layout/fragment_tweets_list" />
+                android:orientation="vertical">
+                <com.astuetz.PagerSlidingTabStrip
+                    android:id="@+id/pgTabs"
+                    app:pstsShouldExpand="true"
+                    app:pstsTextAllCaps="true"
+                    app:pstsIndicatorColor="@color/twitterColor"
+                    app:pstsUnderlineColor="@color/transparent"
+                    app:pstsTabBackground="@color/transparent"
+                    app:pstsIndicatorHeight="2dp"
+                    android:textSize="12sp"
+                    android:fontFamily="@string/font_sans_serif_regular"
+                    android:textColor="@color/twitterColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@color/transparent"/>
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vpViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent" />
+            </LinearLayout>
         </android.support.v4.widget.SwipeRefreshLayout>
     </android.support.design.widget.CoordinatorLayout>
     <RelativeLayout
